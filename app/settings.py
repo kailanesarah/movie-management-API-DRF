@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'genres',
     'actors',
     'movies',
+    'review',
     
     'rest_framework'
     
