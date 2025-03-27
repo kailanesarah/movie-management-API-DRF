@@ -6,8 +6,7 @@ from actors.models import Actors
 class ActorsAdmin(admin.ModelAdmin):
 
     list_display = (
-        'id', 
-        'name', 
-        'last_name', 
-        'birthday'
-        )
+        'id',
+        'name',
+        'last_name',
+        'birthday')

@@ -11,7 +11,7 @@ class GlobalDefaultPermission(permissions.BasePermission):
         )
 
         if not model_permission_codename:
-            return False  
+            return False
 
         return request.user.has_perm(model_permission_codename)
 
@@ -19,15 +19,15 @@ class GlobalDefaultPermission(permissions.BasePermission):
         """Gera a string de permissão no formato 'app_name.action_model'."""
         try:
             model_name = view.queryset.model._meta.model_name
-            app_name = view.queryset.model._meta.app_label  
+            app_name = view.queryset.model._meta.app_label
             action = self.__get_method_request(method)
 
             if not action:
-                return None 
+                return None
 
             return f'{app_name}.{action}_{model_name}'
         except AttributeError:
-            return None  
+            return None
 
     def __get_method_request(self, method):
         """Mapeia os métodos HTTP para as ações de permissão do Django."""
@@ -40,4 +40,4 @@ class GlobalDefaultPermission(permissions.BasePermission):
             'DELETE': 'delete',
             'POST': 'add'
         }
-        return request_methods.get(method, None) 
+        return request_methods.get(method, None)

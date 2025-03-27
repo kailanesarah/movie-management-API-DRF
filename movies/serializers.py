@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from movies.models import Movies
+from genres.serializers import GenreSerializer
+from actors.serializers import ActorSerializers
 
 
 class MoviesSerializers(serializers.ModelSerializer):
@@ -10,25 +12,16 @@ class MoviesSerializers(serializers.ModelSerializer):
     rate = serializers.SerializerMethodField(read_only=True)
 
     def get_rate(self, obj):
-
         result = obj.reviews.all()
-
-        print(result)
 
         if result:
             sum_reviews = 0
 
             for review in result:
                 sum_reviews += review.stars
-
             reviews_count = result.count()
 
             return sum_reviews / reviews_count
-
-        
-
-    # o padrão é validade_nome_do_campo_no_model
-    # o value já é o campo escolhido, não um objeto, mas o valor do campo em si
 
     def validate_release_date(self, value):
         print("Valor do campo release_date recebido:", value)
@@ -38,3 +31,22 @@ class MoviesSerializers(serializers.ModelSerializer):
                 'Filmes feitos antes de 1990 não são permitidos')
 
         return value
+
+
+class DataSerializer(serializers.Serializer):
+
+    genre = GenreSerializer()
+    actors = ActorSerializers(many=True)
+
+    class Meta:
+        model = Movies
+        fields = '__all__'
+
+
+class SerializerState(serializers.Serializer):
+    model = Movies
+
+    total_movies = serializers.IntegerField()
+    movies_by_genre = serializers.ListField(source='genre__name')
+    total_reviews = serializers.IntegerField()
+    average_stars = serializers.FloatField()
