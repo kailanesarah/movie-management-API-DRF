@@ -7,7 +7,7 @@ from drf_yasg import openapi
 # Configuração do Swagger com suporte a Token Authentication
 schema_view = get_schema_view(
     openapi.Info(
-        title="Minha API",
+        title="API Movies",
         default_version='v1',
         description="Documentação da API com Swagger",
         terms_of_service="https://www.google.com/policies/terms/",
