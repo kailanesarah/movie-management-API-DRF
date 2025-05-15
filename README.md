@@ -7,7 +7,8 @@
 <body>
 
 <h1>🎬 Movie Management API - DRF</h1>
-    <p>This API was developed using <strong>Django</strong> and the <strong>Django REST Framework (DRF)</strong> to facilitate the management of movies, actors, reviews, and genres.</p>
+
+<p>This API was developed as part of the <strong>Django Master</strong> course by <strong>PyCode BR</strong>, using <strong>Django</strong> and the <strong>Django REST Framework (DRF)</strong> to facilitate the management of movies, actors, reviews, and genres.</p>
 
 <h2>🚀 Project Overview</h2>
 
