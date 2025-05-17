@@ -5,42 +5,27 @@ from actors.serializers import ActorSerializers
 
 
 class MoviesSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Movies
-        fields = '__all__'
+    genre = GenreSerializer(read_only=True)
+    actors = ActorSerializers(many=True, read_only=True)
 
     rate = serializers.SerializerMethodField(read_only=True)
 
+    class Meta:
+        model = Movies
+        fields = '__all__'  # inclui 'name', 'release_date', 'genre', 'actors', 'resume'
+
     def get_rate(self, obj):
         result = obj.reviews.all()
-
         if result:
-            sum_reviews = 0
-
-            for review in result:
-                sum_reviews += review.stars
+            sum_reviews = sum([review.stars for review in result])
             reviews_count = result.count()
-
             return sum_reviews / reviews_count
 
     def validate_release_date(self, value):
-        print("Valor do campo release_date recebido:", value)
-
         if value.year < 1990:
             raise serializers.ValidationError(
                 'Filmes feitos antes de 1990 não são permitidos')
-
         return value
-
-
-class DataSerializer(serializers.Serializer):
-
-    genre = GenreSerializer()
-    actors = ActorSerializers(many=True)
-
-    class Meta:
-        model = Movies
-        fields = '__all__'
 
 
 class SerializerState(serializers.Serializer):

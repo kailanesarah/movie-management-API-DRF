@@ -2,7 +2,7 @@ from django.db.models import Avg, Count
 from rest_framework import generics, response, status
 from rest_framework.views import APIView
 from movies.models import Movies
-from movies.serializers import MoviesSerializers, SerializerState, DataSerializer
+from movies.serializers import MoviesSerializers, SerializerState
 from rest_framework.permissions import IsAuthenticated
 from review.models import Review
 from app.permissions import GlobalDefaultPermission
@@ -10,11 +10,10 @@ from app.permissions import GlobalDefaultPermission
 
 class MoviesCreateListView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated, GlobalDefaultPermission,)
-    queryset = Movies.objects.all()
-
+    queryset = Movies.objects.all().select_related('genre').prefetch_related('actors')
     def get_serializer_class(self):
         if self.request.method == 'GET':
-            return DataSerializer
+            return MoviesSerializers
         return MoviesSerializers
 
 
