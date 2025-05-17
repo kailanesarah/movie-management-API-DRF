@@ -29,9 +29,9 @@ class MoviesSerializers(serializers.ModelSerializer):
 
 
 class SerializerState(serializers.Serializer):
-    model = Movies
+    
 
     total_movies = serializers.IntegerField()
-    movies_by_genre = serializers.ListField(source='genre__name')
+    movies_by_genre = serializers.ListField(source='movies_by_genres')
     total_reviews = serializers.IntegerField()
     average_stars = serializers.FloatField()
